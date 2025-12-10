@@ -4,7 +4,7 @@ const projects = [
   {
     name: 'QuimicaPro',
     description: 'Plataforma Educacional de Química',
-    stack: ['Python (99.6%)', 'PL/pgSQL (0.4%)'],
+    stack: ['Python', 'PL/pgSQL'],
     features: [
       'Aplicación educativa con módulos interactivos',
       'Base de datos integrada',
