@@ -2,14 +2,71 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  scroll-behavior: smooth;
+@layer base {
+  :root { color-scheme: dark; }
+  * { @apply border-white/10; }
+  html { scroll-behavior: smooth; }
+  body { @apply m-0 bg-ink font-sans text-slate-100 antialiased; }
+  button, a { -webkit-tap-highlight-color: transparent; }
+  :focus-visible { @apply outline-none ring-2 ring-mint ring-offset-2 ring-offset-ink; }
 }
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer components {
+  .skip-link { @apply fixed left-4 top-4 z-[100] -translate-y-24 rounded-lg bg-mint px-4 py-3 font-bold text-ink transition focus:translate-y-0; }
+  .nav-link { @apply relative text-sm font-semibold text-slate-400 transition hover:text-white; }
+  .nav-link::after { content: ''; @apply absolute -bottom-2 left-0 h-px w-0 bg-mint transition-all duration-300; }
+  .nav-link:hover::after { @apply w-full; }
+  .language-switch { @apply flex rounded-full border border-white/10 bg-white/[0.04] p-1; }
+  .language-switch button { @apply rounded-full px-2.5 py-1.5 text-[10px] font-bold tracking-widest text-slate-500 transition; }
+  .language-switch button.active { @apply bg-white text-ink; }
+
+  .button-primary { @apply inline-flex items-center justify-center gap-2 rounded-full bg-mint px-6 py-3.5 text-sm font-extrabold text-ink transition duration-300 hover:-translate-y-0.5 hover:bg-white; }
+  .button-secondary { @apply inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-6 py-3.5 text-sm font-bold text-white transition duration-300 hover:-translate-y-0.5 hover:border-white/30 hover:bg-white/[0.08]; }
+  .social-button { @apply grid h-12 w-12 place-items-center rounded-full border border-white/15 text-slate-400 transition hover:-translate-y-0.5 hover:border-mint/40 hover:text-mint; }
+  .text-gradient { @apply bg-gradient-to-r from-mint via-emerald-200 to-cyan-300 bg-clip-text text-transparent; }
+
+  .system-card { @apply relative rounded-[2rem] border border-white/10 bg-[#0c1916]/90 p-6 shadow-2xl shadow-black/30 backdrop-blur md:p-8; }
+  .focus-row { @apply flex items-center gap-4 rounded-xl border border-white/[0.07] bg-white/[0.025] px-4 py-3.5 text-sm font-semibold text-slate-200 transition hover:border-mint/20 hover:bg-mint/[0.04]; }
+  .status-dot { @apply relative h-2 w-2 rounded-full bg-mint; box-shadow: 0 0 0 4px rgba(139, 245, 195, .1); }
+  .stat-block { @apply flex items-baseline gap-4 border-white/10 px-6 py-7 md:border-r md:px-8; }
+  .stat-block:last-child { @apply border-r-0; }
+  .stat-block strong { @apply font-display text-2xl text-white; }
+  .stat-block span { @apply text-sm text-slate-500; }
+
+  .section-shell { @apply mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-32; }
+  .section-heading { @apply grid gap-8 lg:grid-cols-[1.35fr_.65fr] lg:items-end; }
+  .section-heading h2, .section-title { @apply mt-5 max-w-4xl font-display text-4xl font-semibold leading-[1.05] tracking-[-.04em] text-white md:text-6xl; }
+  .section-heading > p { @apply max-w-xl text-base leading-7 text-slate-400 lg:justify-self-end; }
+  .eyebrow { @apply font-mono text-xs font-bold uppercase tracking-[.22em] text-mint; }
+
+  .project-card { @apply grid overflow-hidden rounded-[2rem] border border-white/10 bg-[#0b1614] transition duration-500 hover:-translate-y-1 hover:border-white/20 hover:shadow-2xl hover:shadow-black/30 md:grid-cols-[.9fr_1.1fr]; }
+  .project-visual { @apply relative min-h-[300px] overflow-hidden p-8 md:min-h-[430px]; }
+  .project-visual::before { content: ''; @apply absolute inset-0 opacity-70; background-image: linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px); background-size: 36px 36px; }
+  .visual-mint { background: radial-gradient(circle at 20% 20%, rgba(139,245,195,.35), transparent 42%), #10241e; }
+  .visual-coral { background: radial-gradient(circle at 80% 25%, rgba(255,128,102,.36), transparent 42%), #251512; }
+  .visual-violet { background: radial-gradient(circle at 25% 80%, rgba(167,139,250,.4), transparent 45%), #191427; }
+  .project-window { @apply relative flex h-full min-h-[250px] flex-col justify-between rounded-2xl border border-white/15 bg-black/25 p-6 shadow-2xl backdrop-blur-sm md:min-h-[366px]; transform: rotate(-2deg); }
+  .project-icon { @apply grid h-24 w-24 place-items-center self-center rounded-3xl border border-white/15 bg-white/10 text-white shadow-xl; }
+  .tech-pill { @apply rounded-full border border-white/10 bg-white/[0.035] px-3 py-1.5 text-[11px] font-semibold text-slate-400; }
+  .project-link { @apply mt-10 flex items-center gap-2 border-t border-white/10 pt-5 text-sm font-bold text-white transition hover:text-mint; }
+
+  .capability-card { @apply bg-[#0a1513] p-7 transition hover:bg-[#0d1c18] md:p-9; }
+  .capability-card h3 { @apply mt-10 font-display text-2xl font-semibold text-white; }
+  .capability-card > p { @apply mt-4 text-sm leading-7 text-slate-400; }
+
+  .experience-row { @apply grid gap-5 border-b border-white/10 py-8 sm:grid-cols-[150px_1fr] md:py-10; }
+  .experience-row time { @apply font-mono text-xs tracking-wider text-slate-600; }
+  .experience-row h3 { @apply mt-2 font-display text-2xl font-semibold text-white; }
+  .experience-row div > p:last-child { @apply mt-3 max-w-2xl text-sm leading-7 text-slate-400; }
+  .contact-link { @apply flex w-full items-center gap-3 rounded-full border border-white/10 px-5 py-3 text-sm font-semibold text-slate-300 transition hover:border-mint/30 hover:text-mint sm:w-64; }
+}
+
+.hero-grid { position: absolute; inset: 0; opacity: .28; mask-image: linear-gradient(to bottom, black, transparent 88%); background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size: 64px 64px; }
+.hero-orb { position: absolute; border-radius: 9999px; filter: blur(110px); pointer-events: none; }
+.hero-orb-one { width: 34rem; height: 34rem; right: -12rem; top: 5rem; background: rgba(29, 185, 121, .13); }
+.hero-orb-two { width: 28rem; height: 28rem; left: -15rem; top: 26rem; background: rgba(32, 144, 180, .08); }
+.contact-orb { position: absolute; width: 38rem; height: 38rem; right: -12rem; top: -14rem; border-radius: 9999px; background: rgba(139,245,195,.09); filter: blur(100px); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
