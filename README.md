@@ -1,94 +1,90 @@
-# Portafolio de Fernando Troncoso Ortiz
+<div align="center">
 
-Proyecto de portafolio personal construido con Vite, React, TypeScript y Tailwind CSS.
+# Fernando Troncoso · Software Portfolio
 
-## Requisitos
-- Node.js `>=18` (Netlify usa Node 18, fijado en `netlify.toml`).
-- npm `>=9`.
+**Portafolio bilingüe enfocado en ingeniería de software, IA aplicada y automatización.**
 
-## Inicio Rápido
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white)](https://vite.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+
+</div>
+
+## Sobre el proyecto
+
+Este sitio presenta mi experiencia y proyectos como sistemas completos, no únicamente como interfaces. La narrativa está orientada a reclutadores y equipos técnicos: cada caso explica el problema abordado, el resultado técnico y las tecnologías utilizadas.
+
+La interfaz utiliza español latinoamericano por defecto e incorpora un selector persistente para inglés.
+
+## Proyectos destacados
+
+| Proyecto | Enfoque | Tecnologías principales |
+| --- | --- | --- |
+| [Enterprise RAG Assistant](https://github.com/Fefox-glitch/Enterprise-RAG-Assistant) | Inteligencia documental con respuestas citadas | Next.js, FastAPI, pgvector, OpenAI, Docker |
+| [VideoVault](https://github.com/Fefox-glitch/VaultVideo-Portfolio) | Procesamiento multimedia asíncrono | Next.js, PostgreSQL, Redis, FFmpeg, Playwright |
+| [QuímicaPro](https://github.com/Fefox-glitch/Qu-micaPro) | Experiencia educativa de escritorio | Python, PyQt5, Supabase, GitHub Actions |
+
+## Experiencia de usuario
+
+- Identidad visual oscura con alto contraste y acentos propios.
+- Diseño responsive desde navegación hasta casos de estudio.
+- Contenido completo en español e inglés.
+- Navegación semántica y enlace para saltar al contenido.
+- Estados de foco visibles y soporte para `prefers-reduced-motion`.
+- Metadatos Open Graph, descripción SEO, favicon propio y tema del navegador.
+- Enlaces directos a código, LinkedIn y correo electrónico.
+
+## Desarrollo local
+
+Requiere Node.js 18 o posterior y npm 9 o posterior.
 
 ```bash
-# Instalar dependencias
+git clone https://github.com/Fefox-glitch/Portafolio.git
+cd Portafolio
 npm install
-
-# Desarrollo (servidor local con HMR)
 npm run dev
-
-# Compilar para producción
-npm run build
-
-# Previsualizar la compilación localmente (sirve ./dist)
-npm run preview
 ```
 
-Nota (Windows/PowerShell): si aparece un error de ejecución para `npm.ps1`, usa `npm.cmd` en lugar de `npm`.
+La aplicación estará disponible en la URL indicada por Vite, normalmente `http://localhost:5173`.
 
-## Stack Técnico
-- Vite 5 + React + TypeScript
-- Tailwind CSS + PostCSS
-- Configuración de despliegue: Netlify (`netlify.toml` y `public/_redirects`)
+## Validación
 
-## Estructura del Proyecto
-
-```
-project/
-├─ index.html            # SEO básico, idioma, meta etiquetas
-├─ netlify.toml          # Configuración de build y Node 18
-├─ public/_redirects     # Reglas de redirección (SPA)
-├─ src/                  # Código de la aplicación
-│  ├─ main.tsx           # Punto de entrada
-│  ├─ App.tsx            # Composición de vistas
-│  ├─ components/        # Secciones del portafolio
-│  └─ index.css          # Estilos globales (Tailwind)
-└─ vite.config.ts        # Configuración de Vite
-```
-
-## Desarrollo
-- `npm run dev` abre el servidor de desarrollo de Vite.
-- Código fuente en `src/`.
-- Estilos utilitarios con Tailwind; configura temas en `tailwind.config.js`.
-
-## Construcción y Previsualización
-- `npm run build` genera `dist/` con assets optimizados.
-- `npm run preview` sirve `dist/` en `http://localhost:4173/`.
-
-## Despliegue en Netlify
-1. Conectar el repositorio (`Fefox-glitch/Portafolio`) desde Netlify: New site from Git.
-2. Configuración de build:
-   - Build command: `npm run build`
-   - Publish directory: `dist`
-3. Entorno:
-   - `netlify.toml` define `NODE_VERSION = "18"` en `[build.environment]`.
-4. Redirecciones:
-   - `public/_redirects` contiene `/* /index.html 200` para SPA.
-
-Cada push a `main` disparará un deploy automático.
-
-## Variables de Entorno
-- Prefijo `VITE_` para variables consumidas en el cliente (ej. `VITE_API_URL`).
-- En Netlify, configúralas en Site settings → Build & deploy → Environment.
-
-## Flujo Git
 ```bash
-# Rama principal
-git branch -M main
-
-# Configurar remoto y subir
-git remote add origin https://github.com/Fefox-glitch/Portafolio.git
-git push -u origin main
-
-# Publicar cambios futuros
-git add . && git commit -m "feat: ..." && git push
+npm run lint
+npm run typecheck
+npm run build
 ```
 
-## Accesibilidad y SEO
-- `index.html` incluye idioma `es`, título y meta etiquetas (description, og, twitter).
-- `Header` añade roles/atributos ARIA para navegación y menú móvil.
+El build de producción se genera en `dist/`. Ninguna variable de entorno es necesaria para mostrar el portafolio.
 
-## Resolución de Problemas
-- PowerShell Execution Policy: si `npm` falla, usa `npm.cmd`.
-- Browserslist: para actualizar estadísticas, ejecuta `npx update-browserslist-db@latest` (opcional).
+## Despliegue
 
-## Licencia
-Este portafolio es de uso personal de Fernando Troncoso Ortiz.
+El repositorio incluye configuración para Netlify:
+
+- comando de build: `npm run build`;
+- directorio publicado: `dist`;
+- redirección SPA: `/* /index.html 200`.
+
+Cada push a la rama configurada en Netlify puede generar un despliegue automático.
+
+## Estructura
+
+```text
+src/
+├── components/
+│   ├── Header.tsx       # Navegación responsive y selector de idioma
+│   ├── Hero.tsx         # Propuesta de valor y foco profesional
+│   ├── Projects.tsx     # Casos de estudio seleccionados
+│   ├── Skills.tsx       # Áreas de especialidad
+│   ├── Experience.tsx   # Trayectoria y formación
+│   └── Contact.tsx      # Conversión y enlaces profesionales
+├── App.tsx              # Estado de idioma y composición
+└── index.css            # Sistema visual y accesibilidad
+```
+
+## Autor
+
+Fernando Troncoso Ortiz · [GitHub](https://github.com/Fefox-glitch) · [LinkedIn](https://www.linkedin.com/in/fernando-troncoso-ortiz-91119111b/)
+
+Este repositorio contiene mi portafolio personal. El contenido biográfico y la identidad visual no se ofrecen como plantilla de uso general.

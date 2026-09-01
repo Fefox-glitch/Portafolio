@@ -1,111 +1,67 @@
 import { Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import type { Language } from '../App';
 
-export const Header = () => {
+type HeaderProps = {
+  language: Language;
+  onLanguageChange: (language: Language) => void;
+};
+
+export const Header = ({ language, onLanguageChange }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    element?.scrollIntoView({ behavior: 'smooth' });
-    setIsMenuOpen(false);
-  };
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 24);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const labels = language === 'es'
+    ? { projects: 'Proyectos', expertise: 'Especialidad', journey: 'Trayectoria', contact: 'Contacto' }
+    : { projects: 'Projects', expertise: 'Expertise', journey: 'Journey', contact: 'Contact' };
+  const navItems = [
+    { id: 'projects', label: labels.projects },
+    { id: 'skills', label: labels.expertise },
+    { id: 'experience', label: labels.journey },
+  ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
-      <nav className="container mx-auto px-6 py-4" role="navigation" aria-label="Principal">
-        <div className="flex justify-between items-center">
-          <a
-            href="#"
-            onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-            className="text-2xl font-bold text-gray-800 hover:text-blue-600 transition-colors"
-            aria-label="Ir al inicio"
-          >
-            FT
-          </a>
+    <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${isScrolled ? 'border-b border-white/10 bg-ink/90 backdrop-blur-xl' : 'bg-transparent'}`}>
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-8" aria-label={language === 'es' ? 'Navegación principal' : 'Main navigation'}>
+        <a href="#top" className="group flex items-center gap-3" aria-label={language === 'es' ? 'Ir al inicio' : 'Go home'}>
+          <span className="grid h-10 w-10 place-items-center rounded-xl border border-mint/30 bg-mint/10 font-display text-sm font-bold text-mint transition group-hover:bg-mint group-hover:text-ink">FT</span>
+          <span className="hidden text-sm font-semibold tracking-wide text-white sm:block">Fernando Troncoso</span>
+        </a>
 
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden text-gray-700 hover:text-blue-600"
-            aria-label={isMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
-            aria-expanded={isMenuOpen}
-            aria-controls="mobile-menu"
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-
-          <ul className="hidden md:flex space-x-8">
-            <li>
-              <button
-                onClick={() => scrollToSection('experience')}
-                className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
-              >
-                Experiencia
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => scrollToSection('skills')}
-                className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
-              >
-                Habilidades
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => scrollToSection('projects')}
-                className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
-              >
-                Proyectos
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => scrollToSection('contact')}
-                className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
-              >
-                Contacto
-              </button>
-            </li>
-          </ul>
+        <div className="hidden items-center gap-8 lg:flex">
+          {navItems.map((item) => <a key={item.id} href={`#${item.id}`} className="nav-link">{item.label}</a>)}
         </div>
 
-        {isMenuOpen && (
-          <ul id="mobile-menu" className="md:hidden mt-4 space-y-4 pb-4">
-            <li>
-              <button
-                onClick={() => scrollToSection('experience')}
-                className="block text-gray-700 hover:text-blue-600 transition-colors font-medium"
-              >
-                Experiencia
+        <div className="flex items-center gap-3">
+          <div className="language-switch" role="group" aria-label={language === 'es' ? 'Seleccionar idioma' : 'Select language'}>
+            {(['es', 'en'] as const).map((item) => (
+              <button key={item} type="button" onClick={() => onLanguageChange(item)} className={language === item ? 'active' : ''} aria-pressed={language === item}>
+                {item.toUpperCase()}
               </button>
-            </li>
-            <li>
-              <button
-                onClick={() => scrollToSection('skills')}
-                className="block text-gray-700 hover:text-blue-600 transition-colors font-medium"
-              >
-                Habilidades
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => scrollToSection('projects')}
-                className="block text-gray-700 hover:text-blue-600 transition-colors font-medium"
-              >
-                Proyectos
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={() => scrollToSection('contact')}
-                className="block text-gray-700 hover:text-blue-600 transition-colors font-medium"
-              >
-                Contacto
-              </button>
-            </li>
-          </ul>
-        )}
+            ))}
+          </div>
+          <a href="#contact" className="hidden rounded-full bg-white px-5 py-2.5 text-sm font-bold text-ink transition hover:bg-mint sm:inline-flex">{labels.contact}</a>
+          <button type="button" onClick={() => setIsMenuOpen((open) => !open)} className="grid h-10 w-10 place-items-center rounded-xl border border-white/15 text-white lg:hidden" aria-label={language === 'es' ? (isMenuOpen ? 'Cerrar menú' : 'Abrir menú') : (isMenuOpen ? 'Close menu' : 'Open menu')} aria-expanded={isMenuOpen} aria-controls="mobile-menu">
+            {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
       </nav>
+
+      {isMenuOpen && (
+        <div id="mobile-menu" className="border-t border-white/10 bg-ink/95 px-5 py-6 backdrop-blur-xl lg:hidden">
+          <div className="mx-auto flex max-w-7xl flex-col gap-4">
+            {navItems.map((item) => <a key={item.id} href={`#${item.id}`} onClick={() => setIsMenuOpen(false)} className="text-lg font-semibold text-slate-200">{item.label}</a>)}
+            <a href="#contact" onClick={() => setIsMenuOpen(false)} className="mt-2 text-lg font-semibold text-mint">{labels.contact} →</a>
+          </div>
+        </div>
+      )}
     </header>
   );
 };
